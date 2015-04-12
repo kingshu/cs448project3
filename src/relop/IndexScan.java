@@ -21,7 +21,7 @@ public class IndexScan extends Iterator {
 		this.schema = schema;
 		this.myHashIndex = index;
 		this.myHeapFile = file;
-		myBucketScan = myHashIndex.openScan();
+		this.myBucketScan = myHashIndex.openScan();
 	}
 
 	/**
