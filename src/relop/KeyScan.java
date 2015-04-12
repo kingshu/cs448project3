@@ -35,9 +35,7 @@ public class KeyScan extends Iterator {
 	 * child iterators, and increases the indent depth along the way.
 	 */
 	public void explain(int depth) {
-		for (int i = 0; i < depth; i++) {
-			System.out.print("\t");
-		}
+		indent(depth);
 		System.out.println("Does a HashScan");
 	}
 
