@@ -18,6 +18,7 @@ public class Selection extends Iterator {
 		this.myIterator = iter;
 		this.schema = iter.schema;
 		this.myPredicates = preds;
+		iter.restart();
 	}
 
 	/**
@@ -27,6 +28,7 @@ public class Selection extends Iterator {
 	public void explain(int depth) {
 		indent(depth);
 		System.out.println("Does a Selection");
+		myIterator.explain(depth + 1);
 	}
 
 	/**
@@ -54,17 +56,18 @@ public class Selection extends Iterator {
 	 * Returns true if there are more tuples, false otherwise.
 	 */
 	public boolean hasNext() {
-		nextTuple = null;
-		while(myIterator.hasNext()) {
+		if(nextTuple != null)
+			return true;
+		while (myIterator.hasNext()) {
 			Tuple t = myIterator.getNext();
 			boolean fits = false;
-			for(Predicate p : myPredicates) {
-				if(p.evaluate(t)) {
+			for (Predicate p : myPredicates) {
+				if (p.evaluate(t)) {
 					fits = true;
 					break;
 				}
 			}
-			if(fits) {
+			if (fits) {
 				nextTuple = t;
 				break;
 			}
@@ -79,14 +82,13 @@ public class Selection extends Iterator {
 	 *             if no more tuples
 	 */
 	public Tuple getNext() {
-		if(nextTuple == null)
+		if (nextTuple == null)
 			hasNext();
-		if(nextTuple == null)
+		if (nextTuple == null)
 			throw new IllegalStateException();
 		Tuple t = nextTuple;
 		nextTuple = null;
 		return t;
-		
 	}
 
 } // public class Selection extends Iterator

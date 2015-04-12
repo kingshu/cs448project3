@@ -38,6 +38,7 @@ public class FileScan extends Iterator {
 	public void restart() {
 		myHeapScan.close();
 		myHeapScan = myHeapFile.openScan();
+		lastRID = null;
 	}
 
 	/**
