@@ -54,14 +54,13 @@ public class Selection extends Iterator {
 	 * Returns true if there are more tuples, false otherwise.
 	 */
 	public boolean hasNext() {
-		boolean found = false;
 		nextTuple = null;
-		while(!found && myIterator.hasNext()) {
+		while(myIterator.hasNext()) {
 			Tuple t = myIterator.getNext();
-			boolean fits = true;
+			boolean fits = false;
 			for(Predicate p : myPredicates) {
-				if(!p.evaluate(t)) {
-					fits = false;
+				if(p.evaluate(t)) {
+					fits = true;
 					break;
 				}
 			}
