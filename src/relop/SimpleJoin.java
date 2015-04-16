@@ -13,12 +13,15 @@ public class SimpleJoin extends Iterator {
 	private Iterator left;
 	private Iterator right;
 	private Predicate[] preds;
+	private Tuple nextTuple = null;
+	private Tuple lTuple = null;
+	private Tuple rTuple = null;
 
 	public SimpleJoin(Iterator left, Iterator right, Predicate... preds) {
 		this.left = left;
 		this.right = right;
 		this.preds = preds;
-		this.schema = Schema.join(left.schema,right.schema);
+		this.schema = Schema.join(left.schema, right.schema);
 		this.restart();
 	}
 
@@ -31,7 +34,7 @@ public class SimpleJoin extends Iterator {
 		System.out.println("Simple Join");
 		left.explain(depth + 1);
 		right.explain(depth + 1);
-		
+
 	}
 
 	/**
@@ -61,7 +64,39 @@ public class SimpleJoin extends Iterator {
 	 * Returns true if there are more tuples, false otherwise.
 	 */
 	public boolean hasNext() {
-		
+		if (nextTuple != null)
+			return true;
+		if (lTuple == null) {
+			if (left.hasNext()) {
+				lTuple = left.getNext();
+			} else {
+				return false;
+			}
+		}
+		if (right.hasNext()) {
+			rTuple = right.getNext();
+		} else {
+			right.restart();
+			if (right.hasNext()) {
+				rTuple = right.getNext();
+			} else {
+				return false;
+			}
+			if (left.hasNext()) {
+				lTuple = left.getNext();
+			} else {
+				lTuple = null;
+				return false;
+			}
+		}
+		Tuple t = Tuple.join(lTuple, rTuple, schema);
+		for (Predicate p : preds) {
+			if (p.evaluate(t)) {
+				nextTuple = t;
+				return true;
+			}
+		}
+		return hasNext();
 	}
 
 	/**
@@ -71,7 +106,11 @@ public class SimpleJoin extends Iterator {
 	 *             if no more tuples
 	 */
 	public Tuple getNext() {
-		throw new UnsupportedOperationException("Not implemented");
+		if(nextTuple == null)
+			hasNext();
+		Tuple t = nextTuple;
+		nextTuple = null;
+		return t;
 	}
 
 } // public class SimpleJoin extends Iterator

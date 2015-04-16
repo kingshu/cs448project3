@@ -163,7 +163,7 @@ class ROTest extends TestDriver {
       SimpleJoin join = new SimpleJoin(new FileScan(s_drivers, file),
           new FileScan(s_drivers, file), preds);
       pro = new Projection(join, 0, 1, 5, 6);
-      pro.execute();
+      join.execute();
 
       // destroy temp files before doing final counts
       join = null;
