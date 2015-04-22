@@ -41,6 +41,7 @@ public class SimpleJoin extends Iterator {
 	 * Restarts the iterator, i.e. as if it were just constructed.
 	 */
 	public void restart() {
+		nextTuple = null;
 		left.restart();
 		right.restart();
 	}
@@ -106,7 +107,7 @@ public class SimpleJoin extends Iterator {
 	 *             if no more tuples
 	 */
 	public Tuple getNext() {
-		if(nextTuple == null)
+		if (nextTuple == null)
 			hasNext();
 		Tuple t = nextTuple;
 		nextTuple = null;

@@ -5,8 +5,6 @@ import heap.HeapFile;
 import index.HashIndex;
 import index.HashScan;
 
-import global.RID;
-
 /**
  * Wrapper for hash scan, an index access method.
  */

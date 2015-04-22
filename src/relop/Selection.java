@@ -35,6 +35,7 @@ public class Selection extends Iterator {
 	 * Restarts the iterator, i.e. as if it were just constructed.
 	 */
 	public void restart() {
+		nextTuple = null;
 		myIterator.restart();
 	}
 
@@ -50,6 +51,7 @@ public class Selection extends Iterator {
 	 */
 	public void close() {
 		myIterator.close();
+		nextTuple = null;
 	}
 
 	/**

@@ -163,7 +163,7 @@ class ROTest extends TestDriver {
       SimpleJoin join = new SimpleJoin(new FileScan(s_drivers, file),
           new FileScan(s_drivers, file), preds);
       pro = new Projection(join, 0, 1, 5, 6);
-      join.execute();
+      pro.execute();
 
       // destroy temp files before doing final counts
       join = null;
@@ -260,6 +260,8 @@ class ROTest extends TestDriver {
       HashJoin join = new HashJoin(new FileScan(s_drivers, drivers),
           new FileScan(s_rides, rides), 0, 0);
       join.execute();
+      //Projection p = new Projection(join,0,1,5,6);
+     // p.execute();
 
       // destroy temp files before doing final counts
       join = null;
