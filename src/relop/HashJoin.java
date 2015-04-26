@@ -75,7 +75,10 @@ public class HashJoin extends Iterator {
 	 * child iterators, and increases the indent depth along the way.
 	 */
 	public void explain(int depth) {
-		throw new UnsupportedOperationException("Not implemented");
+		indent(depth);
+		System.out.println("HashJoin");
+		left.explain(depth+1);
+		right.explain(depth+1);
 	}
 
 	/**

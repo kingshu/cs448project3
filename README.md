@@ -1,2 +1,10 @@
-# cs448project4part1
-it is first part of the fourth project of computer science four hundred and forty eight class.
+# cs448project3
+Krishnabh Medhi
+Christopher Wirt
+
+Run instructions:
+	1) cd into relop directory of src
+	2) run make
+	3) cd into tests directory of src
+	4) run make
+	5) 
